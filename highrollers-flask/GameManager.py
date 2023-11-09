@@ -1,14 +1,12 @@
 from random import randrange
 import json
 
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-
 from .games.test.TestGame import TestGame
 from .games.blackjack.BlackjackGame import BlackjackGame
 from .games.BaseGame import BaseGame
 
-from django.core.handlers.wsgi import WSGIRequest
+from flask import jsonify
+
 
 class GameManager:
     def __init__(self) -> None:
@@ -29,15 +27,11 @@ class GameManager:
     def delete_game(self, id:str) -> BaseGame:
         return self.games.pop(id)
     
-    @csrf_exempt
-    def handle_client_message(self, request:WSGIRequest, game:str):
+    def handle_client_message(self, request, game:str):
         """Send the client's message to the appropriate game"""
 
-        if (request.body == b''):
-            return JsonResponse({"Error": "No body given!"})
-
-        print(request.body)
-        message = json.loads(request.body)
+        print(request)
+        message = request.json
         print(message)
 
         response_message = ""
@@ -53,7 +47,7 @@ class GameManager:
         else:
             response_message = {"Error": "No data given!"}
         
-        return JsonResponse(response_message)
+        return jsonify(response_message)
     
     def _create_game_by_name(self, name: str) -> BaseGame:
         if name == "test":
