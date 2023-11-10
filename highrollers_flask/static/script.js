@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Create an image element for each card
         const cardImage = document.createElement("img");
-        cardImage.src = "images/cards/" + cardName + ".png";
+        cardImage.src = "static/images/cards/" + cardName + ".png";
         cardImage.style.width = "100px";
         cardImage.style.margin = "5px";
 
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Create an image element for the dice
         const diceImage = document.createElement("img");
-        diceImage.src = "images/dice/Dice_" + diceRoll + ".png";
+        diceImage.src = "static/images/dice/Dice_" + diceRoll + ".png";
         diceImage.style.width = "100px";
         diceImage.style.margin = "5px";
 

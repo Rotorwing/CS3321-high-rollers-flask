@@ -1,6 +1,6 @@
-from card_deck import CardDeck
-from random_api import RandomAPI
-from ..BaseGame import BaseGame
+from highrollers_flask.card_deck import CardDeck
+from highrollers_flask.random_api import RandomAPI
+from highrollers_flask.games.BaseGame import BaseGame
 
 class TestGame(BaseGame):
     def __init__(self, manager) -> None:

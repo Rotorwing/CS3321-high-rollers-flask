@@ -1,4 +1,4 @@
-import card
+from highrollers_flask import card
 
 """
 Luna Steed
