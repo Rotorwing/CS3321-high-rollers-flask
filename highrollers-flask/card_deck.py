@@ -1,4 +1,6 @@
 import card
+from random_api import RandomAPI
+
 
 """
 Luna Steed
@@ -10,6 +12,7 @@ Stores an array of 52 cards per deck, with all suits and values.
 class CardDeck:
     def __init__(self):
         self.deckarr = []
+        self.random_api = RandomAPI()
 
     def deck_gen(self, decknum: int = 1):
         """
@@ -29,7 +32,7 @@ class CardDeck:
                     newcard = card.Card(x + 1, "Hearts")
                     self.deckarr.append(newcard)
                 elif y % 4 == 3:
-                    newcard = card.Card(x + 1, "Clubs")
+                    newcard = card.Card(x + 1, "Spades") 
                     self.deckarr.append(newcard)
 
     def draw_card(self, index: int) -> card.Card:
@@ -41,3 +44,15 @@ class CardDeck:
             return self.deckarr.pop(index)
         else:
             raise IndexError("The card deck is empty. Please regenerate the deck using deck_gen.")
+        
+    def deal(self):
+        """pops a card off the top of the stack to be dealed to player-MJ"""
+        dealed_card = self.deckarr.pop()
+        return dealed_card
+    
+    def shuffel_deck(self):
+        """calls random api to shuffle deck-MJ"""
+        n_cards = len(self.deckarr)
+        random_indices = self.random_api.random_integer(0, n_cards -1, n_cards)
+        shuffled_deck = [self.deckarr[i] for i in random_indices]
+        self.deckarr = shuffled_deck
