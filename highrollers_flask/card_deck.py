@@ -1,3 +1,6 @@
+
+from random_api import RandomAPI
+
 from highrollers_flask import card
 
 """
@@ -10,6 +13,7 @@ Stores an array of 52 cards per deck, with all suits and values.
 class CardDeck:
     def __init__(self):
         self.deckarr = []
+        self.random_api = RandomAPI()
 
     def deck_gen(self, decknum: int = 1):
         """
@@ -29,7 +33,7 @@ class CardDeck:
                     newcard = card.Card(x + 1, "Hearts")
                     self.deckarr.append(newcard)
                 elif y % 4 == 3:
-                    newcard = card.Card(x + 1, "Clubs")
+                    newcard = card.Card(x + 1, "Spades") 
                     self.deckarr.append(newcard)
 
     def draw_card(self, index: int) -> card.Card:
@@ -53,3 +57,10 @@ class CardDeck:
         :return: The number of cards remaining in the deck
         """
         return len(self.deckarr)
+
+    def shuffel_deck(self):
+        """calls random api to shuffle deck-Matthew Almgren"""
+        n_cards = len(self.deckarr)
+        random_indices = self.random_api.random_integer(0, n_cards -1, n_cards)
+        shuffled_deck = [self.deckarr[i] for i in random_indices]
+        self.deckarr = shuffled_deck
