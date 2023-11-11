@@ -24,15 +24,12 @@
     <main>
         <!-- Game content will go here -->
         <div id="game-body">
-            <div id="points-placeholder">
-                <button id="incrementPoints" class="button">+5 Points</button>
-                <button id="decrementPoints" class="button">-5 Points</button>
-            </div>
             <div id="game-placeholder">
-                <img id="resultsImage" src="" alt="">
+                <div id="dealer-cards" class="card-area"></div> <!-- Dealer's cards -->
+                <div id="player-cards" class="card-area"></div> <!-- Player's cards -->
             </div>
-            <button id="generateRandomCard" class="button">Random Card</button>
-            <button id="generateRandomDice" class="button">Random Dice</button>
+            <button id="drawCardButton" class="button">Hit</button>
+            <button id="standButton" class="button">Stand</button>
         </div>
     </main>
 
