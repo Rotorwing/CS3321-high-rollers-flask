@@ -26,13 +26,15 @@ class TestGame(BaseGame):
             self.discard.for_card(lambda card: self.deck.add_card(card))
             self.discard.empty()
 
-        remaining_count = self.deck.remaining_cards
+        remaining_count = self.deck.remaining_count()
         card = self.deck.draw_card(self.rand.random_integer(0, remaining_count, 1)[0])
 
         self.hand.add_card(card)
 
         value = str(card)
-        return {"data":{"card":value}.update(self._standard_response())}
+        output = {"card":value}
+        output.update(self._standard_response())
+        return {"data":output}
     
     def _discard_card_action(self, message):
         if "card" not in message:
@@ -43,7 +45,9 @@ class TestGame(BaseGame):
          
         card = self.hand.draw_card(message["card"])
         self.discard.add_card(card)
-        return {"data":{"card":str(card)}.update(self._standard_response())}
+        output = {"card":str(card)}
+        output.update(self._standard_response())
+        return {"data":output}
     
     def _standard_response(self):
         return {"remaining":self.deck.remaining_count(), "discard":self.discard.remaining_count(), "hand":self.hand.remaining_count()}

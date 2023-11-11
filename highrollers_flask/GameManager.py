@@ -47,6 +47,7 @@ class GameManager:
         else:
             response_message = {"Error": "No data given!"}
         
+        print("response:", response_message)
         return jsonify(response_message)
     
     def _create_game_by_name(self, name: str) -> BaseGame:

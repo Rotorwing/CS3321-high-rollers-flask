@@ -41,3 +41,15 @@ class CardDeck:
             return self.deckarr.pop(index)
         else:
             raise IndexError("The card deck is empty. Please regenerate the deck using deck_gen.")
+    
+    def add_card(self, card: card.Card):
+        """
+        :param card: The card you wish to add to the deck
+        """
+        self.deckarr.append(card)
+    
+    def remaining_count(self) -> int:
+        """
+        :return: The number of cards remaining in the deck
+        """
+        return len(self.deckarr)
