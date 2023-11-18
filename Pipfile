@@ -5,6 +5,9 @@ name = "pypi"
 
 [packages]
 flask = "*"
+pytest = "==7.4.3"
+mock = "==5.0.2"
+requests = "==2.31.0"
 
 [dev-packages]
 
