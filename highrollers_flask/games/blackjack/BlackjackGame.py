@@ -64,8 +64,10 @@ class BlackjackGame(BaseGame):
         return card
     
     def dealer_turn(self):
-        """Performs the dealer's turn"""
-        pass
+        """If dealers hand is <= to 17 dealer hits-MJ"""
+        if self.deck_value(self.dealer) <= 17:
+            self.dealer_hit()
+
     
     def round_setup(self):
         """Sets up a new round by drawing the starting cards -JS"""
@@ -109,7 +111,16 @@ class BlackjackGame(BaseGame):
         return "tie"
     
     def continue_round(self):
-        """Finishes the rest of the round after the player stands"""
+        """Finishes the rest of the round after the player stands, after player stands dealer has a chance to hit, if dealer does
+        it checks dealers hand to see if they busted. If they busted it returns player indicating player win.
+        If not it checks to see if the player wins-MJ"""
+        self.dealer_turn()
+        if self.check_bust(self.dealer):
+            return "player"
+        else:
+            results = self.calculate_winner()
+            return results
+
     
 
     def new_game_message(self):
