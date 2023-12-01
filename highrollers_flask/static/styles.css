@@ -37,7 +37,7 @@ main {
     padding: 20px;
 }
 
-#game-body {
+.game-content {
     background-color: #c7265c;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -47,7 +47,7 @@ main {
     margin: 0 auto;
 }
 
-#game-placeholder {
+#game1-area, #game2-area, #game3-area {
     background-color: #164A19;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -124,12 +124,6 @@ nav {
     text-decoration: none;
     color: #fff;
     font-weight: bold;
-}
-
-#game-placeholder img {
-    margin: 0;
-    padding: 0;
-    display: block;
 }
 
 #resultsImage {
