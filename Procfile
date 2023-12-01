@@ -1,1 +1,1 @@
-flask --app ./highrollers_flask/app.py run --port $PORT
+web: gunicorn highrollers_flask/app:app
