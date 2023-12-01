@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/styles.css">
     <script src="static/script.js"></script>
+    <script src="static/blackjack.js"></script>
     <title>Casino Game</title>
 </head>
 <body>
@@ -14,22 +15,41 @@
 
     <nav>
         <ul class="navbar">
-            <button class="button">Game 1</button>
-            <button class="button">Game 2</button>
-            <button class="button">Game 3</button>
-            <button class="button">Game 4</button>
+            <button class="button" data-game="game1">Game 1</button>
+            <button class="button" data-game="game2">Game 2</button>
+            <button class="button" data-game="game3">Game 3</button>
         </ul>
     </nav> 
 
     <main>
-        <!-- Game content will go here -->
-        <div id="game-body">
-            <div id="game-placeholder">
+        <div id="points-bar">
+                
+        </div>
+
+        <!-- Game 1 content will go here -->
+        <div id="game1-body" class="game-content">
+            <div id="game1-area">
                 <div id="dealer-cards" class="card-area"></div> <!-- Dealer's cards -->
                 <div id="player-cards" class="card-area"></div> <!-- Player's cards -->
             </div>
             <button id="drawCardButton" class="button">Hit</button>
             <button id="standButton" class="button">Stand</button>
+        </div>
+
+        <!-- Game 2 content will go here -->
+        <div id="game2-body" class="game-content" style="display: none;">
+            <div id="game2-area">
+            </div>
+            <button class="button">Temp</button>
+            <button class="button">Temp</button>
+        </div>
+
+        <!-- Game 3 content will go here -->
+        <div id="game3-body" class="game-content" style="display: none;">
+            <div id="game3-area">
+            </div>
+            <button class="button">Temp</button>
+            <button class="button">Temp</button>
         </div>
     </main>
 
