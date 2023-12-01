@@ -1,0 +1,1 @@
+flask --app ./highrollers_flask/app.py run --port $PORT
