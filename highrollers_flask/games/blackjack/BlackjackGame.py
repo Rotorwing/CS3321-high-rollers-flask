@@ -52,6 +52,9 @@ class BlackjackGame(BaseGame):
 
         card = self.deck.deal()
         self.player.add_card(card)
+        
+        self.send_game_state(True)
+
         return card
     
     def dealer_hit(self):
@@ -61,6 +64,7 @@ class BlackjackGame(BaseGame):
 
         card = self.deck.deal()
         self.dealer.add_card(card)
+
         return card
     
     def dealer_turn(self):
@@ -90,11 +94,11 @@ class BlackjackGame(BaseGame):
             arr[0] = "B"
         return arr
     
-    def send_game_state(self):
+    def send_game_state(self, hide_dealer_card: bool = False):
         """Sends the current game state to the front-end -JS"""
         return {
             "player":self.pack_deck_data(self.player),
-            "dealer":self.pack_deck_data(self.dealer),
+            "dealer":self.pack_deck_data(self.dealer, hide_dealer_card),
             "player_value":self.deck_value(self.player),
             "dealer_value":self.deck_value(self.dealer),
             "remaining":self.deck.remaining_count()
@@ -115,18 +119,22 @@ class BlackjackGame(BaseGame):
         it checks dealers hand to see if they busted. If they busted it returns player indicating player win.
         If not it checks to see if the player wins-MJ"""
         self.dealer_turn()
+
+        self.send_game_state(False)
+
         if self.check_bust(self.dealer):
             return "player"
         else:
             results = self.calculate_winner()
             return results
+        
 
     
 
     def new_game_message(self):
         """Starts a new game of blackjack -JS"""
         self.round_setup()
-        return self.send_game_state()
+        return self.send_game_state(True)
     
     def handle_client_message(self, message):
         if "action" not in message:
