@@ -1,1 +1,1 @@
-web: gunicorn --chdir highrollers_flask app:app
+web: gunicorn --chdir highrollers_flask app:app --log-file -
