@@ -89,6 +89,18 @@ class CardDeck:
         """
         return self.deckarr
 
+    def empty(self):
+        """
+        Empties the deck JS
+        """
+        self.deckarr = []
+    
+    def is_empty(self) -> bool:
+        """
+        :return: True if the deck is empty, False otherwise
+        """
+        return len(self.deckarr) == 0
+
     def __str__(self):
         """
         Defines how to display deck as a string LS
