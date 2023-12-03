@@ -86,7 +86,7 @@ class BlackjackGame(BaseGame):
         :return: An array of strings representing the deck
         """
 
-        arr = (str(card) for card in deck.get_deck())
+        arr = [str(card) for card in deck.get_deck()]
         if hide_first:
             arr[0] = "B"
         return arr
@@ -130,14 +130,7 @@ class BlackjackGame(BaseGame):
     def game_init_message(self):
         """Starts a new game of blackjack -JS"""
         self.round_setup()
-        return {
-            "id": self.id,  # Assuming each game has a unique ID
-            "player_cards": [str(card) for card in self.player.get_deck()],
-            "dealer_cards": ["B"] + [str(card) for card in self.dealer.get_deck()[1:]],  # Hide first dealer card
-            "player_value": self.deck_value(self.player),
-            "dealer_value": self.deck_value(self.dealer, hide_first=True),
-            "remaining": self.deck.remaining_count()
-        }
+        return self.send_game_state(True)
     
     def handle_client_message(self, message):
         if "action" not in message:
