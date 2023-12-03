@@ -53,7 +53,7 @@ class BlackjackGame(BaseGame):
         card = self.deck.deal()
         self.player.add_card(card)
         # Convert the card to a string or a dictionary format
-        return card
+        return {"card": str(card)}
     
     def dealer_hit(self):
         """Deals a card to the dealer -JS"""
@@ -62,7 +62,7 @@ class BlackjackGame(BaseGame):
 
         card = self.deck.deal()
         self.dealer.add_card(card)
-        return card
+        return {"card": str(card)}
     
     def dealer_turn(self):
         """If dealers hand is <= to 17 dealer hits-MJ"""
@@ -86,7 +86,7 @@ class BlackjackGame(BaseGame):
         :return: An array of strings representing the deck
         """
 
-        arr = [str(card) for card in deck.get_deck()]
+        arr = (str(card) for card in deck.get_deck())
         if hide_first:
             arr[0] = "B"
         return arr
@@ -130,7 +130,14 @@ class BlackjackGame(BaseGame):
     def game_init_message(self):
         """Starts a new game of blackjack -JS"""
         self.round_setup()
-        return self.send_game_state(True)
+        return {
+            "id": self.id,  # Assuming each game has a unique ID
+            "player_cards": [str(card) for card in self.player.get_deck()],
+            "dealer_cards": ["B"] + [str(card) for card in self.dealer.get_deck()[1:]],  # Hide first dealer card
+            "player_value": self.deck_value(self.player),
+            "dealer_value": self.deck_value(self.dealer, hide_first=True),
+            "remaining": self.deck.remaining_count()
+        }
     
     def handle_client_message(self, message):
         if "action" not in message:
