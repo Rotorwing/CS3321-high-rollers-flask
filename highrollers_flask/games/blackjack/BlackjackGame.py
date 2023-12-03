@@ -128,7 +128,7 @@ class BlackjackGame(BaseGame):
     
     
 
-    def new_game_message(self):
+    def game_init_message(self):
         """Starts a new game of blackjack -JS"""
         self.round_setup()
         return {
