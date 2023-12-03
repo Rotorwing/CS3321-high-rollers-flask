@@ -48,24 +48,21 @@ class BlackjackGame(BaseGame):
     def player_hit(self):
         """Deals a card to the player -JS"""
         if self.deck.remaining_count() == 0:
-           self.shuffle()
+            self.shuffle()
 
         card = self.deck.deal()
         self.player.add_card(card)
-        
-        self.send_game_state(True)
-
-        return card
+        # Convert the card to a string or a dictionary format
+        return {"card": str(card)}
     
     def dealer_hit(self):
         """Deals a card to the dealer -JS"""
         if self.deck.remaining_count() == 0:
-           self.shuffle()
+            self.shuffle()
 
         card = self.deck.deal()
         self.dealer.add_card(card)
-
-        return card
+        return {"card": str(card)}
     
     def dealer_turn(self):
         """If dealers hand is <= to 17 dealer hits-MJ"""
@@ -94,11 +91,11 @@ class BlackjackGame(BaseGame):
             arr[0] = "B"
         return arr
     
-    def send_game_state(self, hide_dealer_card: bool = False):
+    def send_game_state(self):
         """Sends the current game state to the front-end -JS"""
         return {
             "player":self.pack_deck_data(self.player),
-            "dealer":self.pack_deck_data(self.dealer, hide_dealer_card),
+            "dealer":self.pack_deck_data(self.dealer),
             "player_value":self.deck_value(self.player),
             "dealer_value":self.deck_value(self.dealer),
             "remaining":self.deck.remaining_count()
@@ -115,26 +112,33 @@ class BlackjackGame(BaseGame):
         return "tie"
     
     def continue_round(self):
-        """Finishes the rest of the round after the player stands, after player stands dealer has a chance to hit, if dealer does
-        it checks dealers hand to see if they busted. If they busted it returns player indicating player win.
-        If not it checks to see if the player wins-MJ"""
+        """Finishes the rest of the round after the player stands -MJ"""
         self.dealer_turn()
-
-        self.send_game_state(False)
-
+        game_result = ""
         if self.check_bust(self.dealer):
-            return "player"
+            game_result = "player"
         else:
-            results = self.calculate_winner()
-            return results
-        
+            game_result = self.calculate_winner()
 
+        return {
+            "result": game_result,
+            "dealer_cards": [str(card) for card in self.dealer.get_deck()],
+            "dealer_value": self.deck_value(self.dealer)
+        }
+    
     
 
     def new_game_message(self):
         """Starts a new game of blackjack -JS"""
         self.round_setup()
-        return self.send_game_state(True)
+        return {
+            "id": self.id,  # Assuming each game has a unique ID
+            "player_cards": [str(card) for card in self.player.get_deck()],
+            "dealer_cards": ["B"] + [str(card) for card in self.dealer.get_deck()[1:]],  # Hide first dealer card
+            "player_value": self.deck_value(self.player),
+            "dealer_value": self.deck_value(self.dealer, hide_first=True),
+            "remaining": self.deck.remaining_count()
+        }
     
     def handle_client_message(self, message):
         if "action" not in message:
