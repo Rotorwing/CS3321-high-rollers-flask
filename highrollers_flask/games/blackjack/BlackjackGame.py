@@ -86,7 +86,7 @@ class BlackjackGame(BaseGame):
         :return: An array of strings representing the deck
         """
 
-        arr = (str(card) for card in deck.get_deck())
+        arr = [str(card) for card in deck.get_deck()]
         if hide_first:
             arr[0] = "B"
         return arr
