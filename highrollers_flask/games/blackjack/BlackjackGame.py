@@ -91,11 +91,11 @@ class BlackjackGame(BaseGame):
             arr[0] = "B"
         return arr
     
-    def send_game_state(self):
+    def send_game_state(self, hide_dealer_card: bool = False):
         """Sends the current game state to the front-end -JS"""
         return {
             "player":self.pack_deck_data(self.player),
-            "dealer":self.pack_deck_data(self.dealer),
+            "dealer":self.pack_deck_data(self.dealer, hide_dealer_card),
             "player_value":self.deck_value(self.player),
             "dealer_value":self.deck_value(self.dealer),
             "remaining":self.deck.remaining_count()
@@ -112,19 +112,18 @@ class BlackjackGame(BaseGame):
         return "tie"
     
     def continue_round(self):
-        """Finishes the rest of the round after the player stands -MJ"""
+        """Finishes the rest of the round after the player stands, after player stands dealer has a chance to hit, if dealer does
+        it checks dealers hand to see if they busted. If they busted it returns player indicating player win.
+        If not it checks to see if the player wins-MJ"""
         self.dealer_turn()
-        game_result = ""
-        if self.check_bust(self.dealer):
-            game_result = "player"
-        else:
-            game_result = self.calculate_winner()
 
-        return {
-            "result": game_result,
-            "dealer_cards": [str(card) for card in self.dealer.get_deck()],
-            "dealer_value": self.deck_value(self.dealer)
-        }
+        self.send_game_state(False)
+
+        if self.check_bust(self.dealer):
+            return "player"
+        else:
+            results = self.calculate_winner()
+            return results
     
     
 
