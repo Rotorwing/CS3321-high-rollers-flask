@@ -117,12 +117,11 @@ class BlackjackGame(BaseGame):
         If not it checks to see if the player wins-MJ"""
         self.dealer_turn()
 
-        self.send_game_state(False)
+        results = {"result": "player"}
+        results.update(self.send_game_state(False))
 
-        if self.check_bust(self.dealer):
-            return "player"
-        else:
-            results = self.calculate_winner()
+        if not self.check_bust(self.dealer):
+            results["result"] = self.calculate_winner()
             return results
     
     
