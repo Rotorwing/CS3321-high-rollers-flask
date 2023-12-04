@@ -52,10 +52,13 @@ class BlackjackGame(BaseGame):
 
         card = self.deck.deal()
         self.player.add_card(card)
+        if self.check_bust(self.player):
+            return "player"
+        else:
         
-        self.send_game_state(True)
+            self.send_game_state(True)
 
-        return card
+            return card
     
     def dealer_hit(self):
         """Deals a card to the dealer -JS"""
