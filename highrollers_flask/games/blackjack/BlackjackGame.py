@@ -52,9 +52,14 @@ class BlackjackGame(BaseGame):
 
         card = self.deck.deal()
         self.player.add_card(card)
-        # Convert the card to a string or a dictionary format
-        return {"card": str(card)}
-    
+        if self.check_bust(self.player):
+            return "dealer"
+        else:
+        
+            self.send_game_state(True)
+
+            return {"card": str(card)}
+          
     def dealer_hit(self):
         """Deals a card to the dealer -JS"""
         if self.deck.remaining_count() == 0:
