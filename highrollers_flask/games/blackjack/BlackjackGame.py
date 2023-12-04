@@ -13,7 +13,7 @@ class BlackjackGame(BaseGame):
         self.discard = CardDeck()
         self.player = CardDeck()
         self.dealer = CardDeck()
-        self.deck.deck_gen(1)
+        self.shuffle()
 
         self.DECK_SHUFFLE_CUTOFF = 10
     
