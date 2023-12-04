@@ -11,7 +11,7 @@ Stores an array of 52 cards per deck, with all suits and values.
 class CardDeck:
     def __init__(self):
         self.deckarr = []
-        self.rand = random_api.RandomAPI
+        self.rand = random_api.RandomAPI()
 
     def deck_gen(self, decknum: int = 1):
         """
