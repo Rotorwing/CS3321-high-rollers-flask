@@ -11,7 +11,10 @@ game_manager = GameManager()
 def view_home():
     return render_template('index.html')
 
+@app.route('/api/game/', methods=['POST'])
+def game_api():
+    return game_manager.handle_client_message(request, "blackjack")
+
 @app.route('/api/test/', methods=['POST'])
 def test():
     return game_manager.handle_client_message(request, "test")
-

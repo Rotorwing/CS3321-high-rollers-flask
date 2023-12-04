@@ -11,7 +11,7 @@ Stores an array of 52 cards per deck, with all suits and values.
 class CardDeck:
     def __init__(self):
         self.deckarr = []
-        self.rand = random_api.RandomAPI
+        self.rand = random_api.RandomAPI()
 
     def deck_gen(self, decknum: int = 1):
         """
@@ -88,6 +88,18 @@ class CardDeck:
         :return: a list of cards
         """
         return self.deckarr
+
+    def empty(self):
+        """
+        Empties the deck JS
+        """
+        self.deckarr = []
+    
+    def is_empty(self) -> bool:
+        """
+        :return: True if the deck is empty, False otherwise
+        """
+        return len(self.deckarr) == 0
 
     def __str__(self):
         """

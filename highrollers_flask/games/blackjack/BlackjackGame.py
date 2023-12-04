@@ -13,7 +13,7 @@ class BlackjackGame(BaseGame):
         self.discard = CardDeck()
         self.player = CardDeck()
         self.dealer = CardDeck()
-        self.deck.deck_gen(1)
+        self.shuffle()
 
         self.DECK_SHUFFLE_CUTOFF = 10
     
@@ -48,24 +48,21 @@ class BlackjackGame(BaseGame):
     def player_hit(self):
         """Deals a card to the player -JS"""
         if self.deck.remaining_count() == 0:
-           self.shuffle()
+            self.shuffle()
 
         card = self.deck.deal()
         self.player.add_card(card)
-        
-        self.send_game_state(True)
-
-        return card
+        # Convert the card to a string or a dictionary format
+        return {"card": str(card)}
     
     def dealer_hit(self):
         """Deals a card to the dealer -JS"""
         if self.deck.remaining_count() == 0:
-           self.shuffle()
+            self.shuffle()
 
         card = self.deck.deal()
         self.dealer.add_card(card)
-
-        return card
+        return {"card": str(card)}
     
     def dealer_turn(self):
         """If dealers hand is <= to 17 dealer hits-MJ"""
@@ -89,7 +86,7 @@ class BlackjackGame(BaseGame):
         :return: An array of strings representing the deck
         """
 
-        arr = (str(card) for card in deck.get_deck())
+        arr = [str(card) for card in deck.get_deck()]
         if hide_first:
             arr[0] = "B"
         return arr
@@ -127,11 +124,10 @@ class BlackjackGame(BaseGame):
         else:
             results = self.calculate_winner()
             return results
-        
-
+    
     
 
-    def new_game_message(self):
+    def game_init_message(self):
         """Starts a new game of blackjack -JS"""
         self.round_setup()
         return self.send_game_state(True)
