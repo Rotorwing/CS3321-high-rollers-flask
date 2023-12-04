@@ -92,7 +92,7 @@ class BlackjackGame(BaseGame):
         """
 
         arr = [str(card) for card in deck.get_deck()]
-        if hide_first:
+        if hide_first and len(arr) > 0:
             arr[0] = "B"
         return arr
     
