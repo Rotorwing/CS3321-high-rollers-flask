@@ -1,13 +1,9 @@
 let gameID = "";
 
 function newGame() {
-    let data = {
-        "data": "newgame"
-    };
+    let data = { "data": "newgame" };
     sendAPICall(data, (response) => {
-        console.debug("Response:", response); // Debugging statement to log the response
-
-        // Check if the response contains an 'id'
+        console.debug(response);
         if (response && response.id) {
             gameID = response.id;
 
@@ -15,26 +11,21 @@ function newGame() {
             document.getElementById("dealer-cards").innerHTML = "";
             document.getElementById("player-cards").innerHTML = "";
 
-            // Check if dealer cards exist in the response
-            if (response.dealer && Array.isArray(response.dealer) && response.dealer.length > 0) {
-                // Draw the dealer's cards
-                response.dealer.forEach((card) => {
+            // Display dealer cards
+            if (response.data.dealer && Array.isArray(response.data.dealer)) {
+                response.data.dealer.forEach((card) => {
                     displayCard(card, true);
                 });
-            } else {
-                console.error("Dealer cards not found in the response:", response);
-                // Handle the error or log the response for debugging
             }
 
-            // Check if player cards exist in the response and draw them
-            if (response.player && Array.isArray(response.player) && response.player.length > 0) {
-                response.player.forEach((card) => {
+            // Display player cards
+            if (response.data.player && Array.isArray(response.data.player)) {
+                response.data.player.forEach((card) => {
                     displayCard(card, false);
                 });
             }
-        } else {
-            console.error("No 'id' found in the response:", response);
-            // Handle the error or log the response for debugging
+
+            // Additional UI updates if necessary
         }
     });
 }
@@ -48,8 +39,15 @@ function playerHit() {
         console.debug(response);
         if (response && response.card) {
             displayCard(response.card, false); // false for player card
+            
+            // Check for player bust
+            if (response.player_value > 21) {
+                console.log("Player bust!"); // Add a console message for debugging
+                // Send a message to the server indicating player bust
+                sendBustMessage("player");
+                // Additional UI updates if necessary
+            }
         }
-        // Additional UI updates if necessary
     });
 }
 
@@ -62,8 +60,26 @@ function dealerHit() {
         console.debug(response);
         if (response && response.card) {
             displayCard(response.card, true); // true for dealer card
+            
+            // Check for dealer bust
+            if (response.dealer_value > 21) {
+                console.log("Dealer bust!"); // Add a console message for debugging
+                // Send a message to the server indicating dealer bust
+                sendBustMessage("dealer");
+                // Additional UI updates if necessary
+            }
         }
-        // Additional UI updates if necessary
+    });
+}
+
+function sendBustMessage(player) {
+    // Send a message to the server indicating the player (player or dealer) has busted
+    let data = {
+        "id": gameID,
+        "data": { "action": "bust", "player": player }
+    };
+    sendAPICall(data, (response) => {
+        // Handle the server response if needed
     });
 }
 
@@ -77,6 +93,35 @@ function playerStand() {
         // Handle the response for the stand action
         // Update the UI accordingly
     });
+}
+
+function calculateHandValue(cards) {
+    let handValue = 0;
+    let aceCount = 0;
+
+    // Iterate through the cards and calculate the hand value
+    for (const card of cards) {
+        const value = card.slice(0, -1);
+        if (value === 'A') {
+            // Handle Ace separately, as it can be 1 or 11
+            aceCount++;
+            handValue += 11;
+        } else if (value === 'K' || value === 'Q' || value === 'J') {
+            // Face cards are worth 10 points
+            handValue += 10;
+        } else {
+            // Numeric cards are worth their face value
+            handValue += parseInt(value);
+        }
+    }
+
+    // Adjust the hand value if there are Aces and the total value exceeds 21
+    while (aceCount > 0 && handValue > 21) {
+        handValue -= 10;
+        aceCount--;
+    }
+
+    return handValue;
 }
 
 function displayCard(backendCardName, isDealerCard) {
