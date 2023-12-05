@@ -73,7 +73,14 @@ function playerStand() {
 
 function updateGameStatus(message) {
     const pointsBar = document.getElementById("points-bar");
-    pointsBar.textContent = message;
+    if (message === "") {
+        // Hide the points bar if the message is empty
+        pointsBar.style.display = "none";
+    } else {
+        // Show the points bar and update the message
+        pointsBar.style.display = "block";
+        pointsBar.textContent = message;
+    }
 }
 
 function displayCard(backendCardName, isDealerCard) {
