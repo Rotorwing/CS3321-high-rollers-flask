@@ -48,3 +48,9 @@ def test_handle_client_message_action(mocker, action):
         mock_request = type('', (), dict(json={"data": {"id": "123456", "action": action}}))()
         game_manager.handle_client_message(mock_request, game)
         game_handle_client_message_mock.assert_called_once()
+
+def test_generate_id():
+    """Tests that the id is generated correctly -JS"""
+    game_manager = GameManager.GameManager()
+    id = game_manager._generate_id()
+    assert len(id) == game_manager.ID_LENGTH
