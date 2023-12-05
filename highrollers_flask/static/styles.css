@@ -65,6 +65,16 @@ main {
     align-items: center;
 }
 
+#points-bar {
+    color: #fff;
+    font-size: 1.5rem;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    max-width: 600px; /* Same as game-content */
+    text-align: center;
+}
 .card-area {
     display: flex;
     justify-content: center;
