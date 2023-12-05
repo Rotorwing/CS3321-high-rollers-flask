@@ -36,8 +36,8 @@ function enableButtons() {
 
 function playerHit() {
     sendAPICall({ "id": gameID, "data": { "action": "hit" } }, (response) => {
-        if (response === "dealer") {
-            updateGameStatus("Player Busts!");
+        if (response.result === "dealer") {
+            updateGameStatus("Player Busts! Dealer Wins!");
             disableButtons();
             showNewGameButton();
         } else if (response.card) {
