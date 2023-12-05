@@ -53,7 +53,7 @@ class BlackjackGame(BaseGame):
         card = self.deck.deal()
         self.player.add_card(card)
         if self.check_bust(self.player):
-            return self.send_game_state(True).update({"result": "dealer"}).update({"card": str(card)})
+            return self.send_game_state(False).update({"result": "dealer"}).update({"card": str(card)})
         else:
 
             self.send_game_state(True)
