@@ -126,7 +126,8 @@ class BlackjackGame(BaseGame):
 
         if not self.check_bust(self.dealer):
             results["result"] = self.calculate_winner()
-            return results
+            
+        return results
 
     def game_init_message(self):
         """Starts a new game of blackjack -JS"""
