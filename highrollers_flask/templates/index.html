@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/styles.css">
-    <script src="static/script.js"></script>
-    <script src="static/blackjack.js"></script>
     <title>Casino Game</title>
 </head>
 <body>
@@ -15,15 +13,15 @@
 
     <nav>
         <ul class="navbar">
-            <button class="button" data-game="game1">Game 1</button>
-            <button class="button" data-game="game2">Game 2</button>
-            <button class="button" data-game="game3">Game 3</button>
+            <button class="button" data-game="game1">Blackjack</button>
+            <!-- <button class="button" data-game="game2">Game 2</button> -->
+            <!-- <button class="button" data-game="game3">Game 3</button> -->
         </ul>
     </nav> 
 
     <main>
         <div id="points-bar">
-                
+            <!-- Points or game status can be displayed here -->
         </div>
 
         <!-- Game 1 content will go here -->
@@ -32,29 +30,33 @@
                 <div id="dealer-cards" class="card-area"></div> <!-- Dealer's cards -->
                 <div id="player-cards" class="card-area"></div> <!-- Player's cards -->
             </div>
-            <button id="drawCardButton" class="button">Hit</button>
+            <button id="hitButton" class="button">Hit</button>
             <button id="standButton" class="button">Stand</button>
+            <button id="newGameButton" class="button" style="display: none;">New Game</button>
         </div>
 
         <!-- Game 2 content will go here -->
         <div id="game2-body" class="game-content" style="display: none;">
             <div id="game2-area">
+                <!-- Game 2 specific content -->
             </div>
-            <button class="button">Temp</button>
-            <button class="button">Temp</button>
+            <!-- Game 2 specific buttons -->
         </div>
 
         <!-- Game 3 content will go here -->
         <div id="game3-body" class="game-content" style="display: none;">
             <div id="game3-area">
+                <!-- Game 3 specific content -->
             </div>
-            <button class="button">Temp</button>
-            <button class="button">Temp</button>
+            <!-- Game 3 specific buttons -->
         </div>
     </main>
 
     <footer>
         &copy; 2023 High Rollers
     </footer>
+    
+    <script src="static/script.js"></script>
+    <script src="static/blackjack.js"></script>
 </body>
 </html>

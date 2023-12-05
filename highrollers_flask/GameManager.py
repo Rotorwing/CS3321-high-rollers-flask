@@ -41,7 +41,9 @@ class GameManager:
                 response_message = self.games[id].handle_client_message(message["data"])
             elif message["data"] == "newgame":
                 id = self.new_game(game)
+                init_message = self.games[id].game_init_message()
                 response_message = {"id":id}
+                response_message.update(dict(data=init_message))
             else:
                 response_message = {"Error": "No game with given ID found!"}
         else:

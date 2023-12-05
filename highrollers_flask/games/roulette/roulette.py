@@ -1,4 +1,4 @@
-import random_api
+from highrollers_flask.random_api import RandomAPI
 from highrollers_flask.games.BaseGame import BaseGame
 """
 Luna Steed
@@ -6,7 +6,8 @@ High Rollers Roulette Class
 Contains the logic for the game of Roulette.
 """
 
-class Roulette:
+
+class Roulette(BaseGame):
     def __init__(self, manager) -> None:
         super().__init__(manager)
         """Initializing Function"""
@@ -24,8 +25,9 @@ class Roulette:
                          "evens": [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36],
                          "odds": [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35]
                          }
-        self.rand = random_api.RandomAPI()
+        self.rand = RandomAPI()
         self.wincount = 0
+        self.spunnum = None
 
     def handle_client_message(self, message: dict):
         if "action" not in message:
@@ -34,12 +36,11 @@ class Roulette:
         if message["action"] == "spin":
             self._spin_action()
             for category in message["categories"].split(','):
-                if self._check_bet(category):
+                if self._check_bet(category.strip()):
                     self.wincount += 1
 
-            for num in message["nums"].split(','):
-                if self._check_nums(num):
-                    self.wincount += 1
+            if self._check_nums(message["nums"]):
+                self.wincount += 1
 
         retstr = self.wincount.__str__()
 
@@ -65,8 +66,5 @@ class Roulette:
         """Checks the spun number against the given list of integers bet upon."""
         if self.spunnum is None:
             raise ValueError("Roulette wheel has not been spun yet!")
-        if self.spunnum in numlist:
-            return True
-        else:
-            return False
+        return self.spunnum in numlist
 

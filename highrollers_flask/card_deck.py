@@ -11,28 +11,32 @@ Stores an array of 52 cards per deck, with all suits and values.
 class CardDeck:
     def __init__(self):
         self.deckarr = []
-        self.rand = random_api.RandomAPI
+        self.rand = random_api.RandomAPI()
 
     def deck_gen(self, decknum: int = 1):
         """
             Creates a number of decks given how many decks are to be made.
 
             :param int decknum: Number of decks to generate. Default is 1.
-            """
-        for x in range(13):
-            for y in range(4 * decknum):
-                if y % 4 == 0:
-                    newcard = card.Card(x + 1, "Clubs")
-                    self.deckarr.append(newcard)
-                elif y % 4 == 1:
-                    newcard = card.Card(x + 1, "Diamonds")
-                    self.deckarr.append(newcard)
-                elif y % 4 == 2:
-                    newcard = card.Card(x + 1, "Hearts")
-                    self.deckarr.append(newcard)
-                elif y % 4 == 3:
-                    newcard = card.Card(x + 1, "Spades")
-                    self.deckarr.append(newcard)
+        """
+        self.deckarr = []
+        if decknum < 1:
+            raise ValueError("Deck number must be greater than 0.")
+        for i in range(decknum):
+            for x in range(13):
+                for y in range(4):
+                    if y % 4 == 0:
+                        newcard = card.Card(x + 1, "Clubs")
+                        self.deckarr.append(newcard)
+                    elif y % 4 == 1:
+                        newcard = card.Card(x + 1, "Diamonds")
+                        self.deckarr.append(newcard)
+                    elif y % 4 == 2:
+                        newcard = card.Card(x + 1, "Hearts")
+                        self.deckarr.append(newcard)
+                    elif y % 4 == 3:
+                        newcard = card.Card(x + 1, "Spades")
+                        self.deckarr.append(newcard)
 
     def draw_card(self, index: int) -> card.Card:
         """
@@ -41,6 +45,8 @@ class CardDeck:
         """
         if len(self.deckarr) != 0:
             return self.deckarr.pop(index)
+        if len(self.deckarr) - 1 < index:
+            raise IndexError("The index is out of range.")
         else:
             raise IndexError("The card deck is empty. Please regenerate the deck using deck_gen.")
     
@@ -82,6 +88,18 @@ class CardDeck:
         :return: a list of cards
         """
         return self.deckarr
+
+    def empty(self):
+        """
+        Empties the deck JS
+        """
+        self.deckarr = []
+    
+    def is_empty(self) -> bool:
+        """
+        :return: True if the deck is empty, False otherwise
+        """
+        return len(self.deckarr) == 0
 
     def __str__(self):
         """
