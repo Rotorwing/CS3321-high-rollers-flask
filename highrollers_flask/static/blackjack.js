@@ -11,7 +11,8 @@ function newGame() {
         }
     });
     hideNewGameButton();
-    enableButtons(); 
+    enableButtons();
+    updateGameStatus("");
 }
 
 
