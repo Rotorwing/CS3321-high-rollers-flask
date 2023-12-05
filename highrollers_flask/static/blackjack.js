@@ -40,9 +40,9 @@ function playerHit() {
             updateGameStatus("Player Busts! Dealer Wins!");
             disableButtons();
             showNewGameButton();
-        } else if (response.card) {
+        } //else if (response.card) {
             displayCard(response.card, false);
-        }
+        //}
     });
 }
 
